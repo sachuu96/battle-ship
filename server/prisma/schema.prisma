@@ -14,42 +14,42 @@ model User {
 }
 
 model Game {
-  id     String   @id @default(uuid())
+  id     Int      @id @default(autoincrement())
   Player Player[]
   Ship   Ship[]
 }
 
 model Player {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
 
-  gameId String
-  game   Game   @relation(fields: [gameId], references: [id])
+  gameId Int
+  game   Game @relation(fields: [gameId], references: [id])
 
   Cell Cell[]
   Ship Ship[]
 }
 
 model Ship {
-  id   String @id @default(uuid())
+  id   Int    @id @default(autoincrement())
   type String
 
-  gameId String
-  game   Game   @relation(fields: [gameId], references: [id])
+  gameId Int
+  game   Game @relation(fields: [gameId], references: [id])
 
-  playerId String
+  playerId Int
   player   Player @relation(fields: [playerId], references: [id])
   Cell     Cell[]
 }
 
 model Cell {
-  id     String @id @default(uuid())
+  id     Int    @id @default(autoincrement())
   X      Int
   Y      Int
   Status String
 
-  playerId String
+  playerId Int
   player   Player @relation(fields: [playerId], references: [id])
 
-  shipId String
-  ship   Ship   @relation(fields: [shipId], references: [id])
+  shipId Int
+  ship   Ship @relation(fields: [shipId], references: [id])
 }
