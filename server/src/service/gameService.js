@@ -10,3 +10,44 @@ export const createGame = async () => {
     throw error;
   }
 };
+
+export const createGameWithPlayersAndShips = async () => {
+    return await prisma.$transaction(async (tx) => {
+      // Create Game
+      const game = await tx.game.create({
+        data: {},
+      });
+  
+      const shipTypes = ['battle', 'destroyer', 'destroyer'];
+  
+      const players = await Promise.all(
+        Array.from({ length: 2 }).map(async () => {
+          const player = await tx.player.create({
+            data: {
+              gameId: game.id,
+            },
+          });
+  
+          // Create 3 ships for the player
+          await Promise.all(
+            shipTypes.map((type) =>
+              tx.ship.create({
+                data: {
+                  type,
+                  gameId: game.id,
+                  playerId: player.id,
+                },
+              })
+            )
+          );
+  
+          return player;
+        })
+      );
+  
+      return {
+        game,
+        players,
+      };
+    });
+  };
