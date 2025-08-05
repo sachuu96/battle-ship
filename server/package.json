@@ -5,7 +5,7 @@
   "description": "1. mkdir server && cd server 2. npm init -y 3. npm install express cors dotenv 4. mkdir src && touch src/index.js 5. npm install pg 6. npm install prisma --save-dev 7. npm install @prisma/client",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
+    "nodemon": "^3.1.10",
     "prisma": "^6.13.0"
   }
 }
