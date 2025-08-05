@@ -1,31 +1,3 @@
-// import Pool from 'pg';
-// // const { Pool } = require('pg');
-
-// let poolInstance = null;
-
-// export const getDbInstance = () => {
-//   if (!poolInstance) {
-//     poolInstance = new Pool({
-//       user: process.env.DB_USER || 'postgres',
-//       host: process.env.DB_HOST || 'localhost',
-//       database: process.env.DB_NAME || 'battleship',
-//       password: process.env.DB_PASSWORD || 'your_password',
-//       port: process.env.DB_PORT || 5432,
-//     });
-
-//     // Optional: handle pool errors
-//     poolInstance.on('error', (err) => {
-//       console.error('Unexpected error on idle client', err);
-//       process.exit(-1);
-//     });
-
-//     console.log('📦 PostgreSQL pool initialized');
-//   }
-
-//   return poolInstance;
-// }
-
-// db.js
+// TODO: add singleton pattern to make sure only one instance is created through out the application
 import { PrismaClient } from'@prisma/client';
 export const prisma = new PrismaClient();
-// module.exports = prisma;
