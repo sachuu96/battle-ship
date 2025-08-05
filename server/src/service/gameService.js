@@ -11,6 +11,8 @@ export const createGame = async () => {
   }
 };
 
+// TODO: properly wrap this in a try catch block 
+// CHECK: what will happen if one if the db call failed?
 export const createGameWithPlayersAndShips = async () => {
     return await prisma.$transaction(async (tx) => {
       // Create Game
