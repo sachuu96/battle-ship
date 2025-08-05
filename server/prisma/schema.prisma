@@ -12,3 +12,44 @@ model User {
   name  String
   email String @unique
 }
+
+model Game {
+  id     String   @id @default(uuid())
+  Player Player[]
+  Ship   Ship[]
+}
+
+model Player {
+  id String @id @default(uuid())
+
+  gameId String
+  game   Game   @relation(fields: [gameId], references: [id])
+
+  Cell Cell[]
+  Ship Ship[]
+}
+
+model Ship {
+  id   String @id @default(uuid())
+  type String
+
+  gameId String
+  game   Game   @relation(fields: [gameId], references: [id])
+
+  playerId String
+  player   Player @relation(fields: [playerId], references: [id])
+  Cell     Cell[]
+}
+
+model Cell {
+  id     String @id @default(uuid())
+  X      Int
+  Y      Int
+  Status String
+
+  playerId String
+  player   Player @relation(fields: [playerId], references: [id])
+
+  shipId String
+  ship   Ship   @relation(fields: [shipId], references: [id])
+}
