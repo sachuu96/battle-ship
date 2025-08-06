@@ -1,7 +1,7 @@
 import express from "express";
 import { create as createGame } from "../service/gameService.js";
 import { create as createPlayer } from "../service/playerService.js";
-import { create as createShips } from "../service/shipService.js";
+import { create as createShip } from "../service/shipService.js";
 import {
   create as createCell,
   getShipCoordinates,
@@ -15,7 +15,19 @@ gameRouter.post("/", async (req, res) => {
   const secondPlayer = await createPlayer(game.id);
 
   // assuming first player is the bot player - therefore create ships for that player
-  const shipsOfBotPlayer = await createShips(firstPlayer.id, game.id);
+  const shipTypes = ["battle", "destroyer", "destroyer"];
+  const shipsOfBotPlayer = await Promise.all(
+    shipTypes.map(async (type) => {
+      return await createShip({
+        type,
+        playerId: firstPlayer.id,
+        gameId: game.id,
+      });
+    })
+  );
+
+  // console.log('shipsOfBotPlayer-',shipsOfBotPlayer)
+  // const shipsOfBotPlayer = await createShips(firstPlayer.id, game.id);
 
   // create ship cordinates - cells
   for (const [index, ship] of shipsOfBotPlayer.entries()) {
