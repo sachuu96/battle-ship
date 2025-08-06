@@ -1,0 +1,1 @@
+export const shipTypes = ["battle", "destroyer", "destroyer"];

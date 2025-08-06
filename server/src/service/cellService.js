@@ -4,15 +4,21 @@ import { prisma } from "../db.js";
 export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
   try {
     const cell = await prisma.cell.create({
-        data:{
-            X: Xcordinate,
-            Y: YCordinate,
-            playerId,
-            shipId,
-            status: 'intact'
-        }
+      data: {
+        X: Xcordinate,
+        Y: YCordinate,
+        ownedByPlayerId: playerId,
+        shipId,
+        status: "intact",
+      },
     });
-    if (!cell) throw { statusCode: 400, message: `cell not created : ${{Xcordinate}} : ${{YCordinate}} : ${{playerId}} : ${{shipId}}` };
+    if (!cell)
+      throw {
+        statusCode: 400,
+        message: `cell not created : ${{ Xcordinate }} : ${{ YCordinate }} : ${{
+          playerId,
+        }} : ${{ shipId }}`,
+      };
     return cell;
   } catch (error) {
     console.error("Error while creating cell:", error);
@@ -20,10 +26,10 @@ export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
   }
 };
 
-// this function is used to create ship placement for bot player 
+// this function is used to create ship placement for bot player
 // TODO: come up with a better randomization logic for cordinates
-export const getShipCoordinates =(shipType, index) => {
-  if (shipType === 'battle') {
+export const getShipCoordinates = (shipType, index) => {
+  if (shipType === "battle") {
     // 4 cells in a vertical line
     return [
       [5, 0],
@@ -39,6 +45,4 @@ export const getShipCoordinates =(shipType, index) => {
       [index + 1, 2],
     ];
   }
-}
-
-
+};

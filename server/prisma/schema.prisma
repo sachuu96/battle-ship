@@ -27,6 +27,8 @@ model Player {
 
   Cell Cell[]
   Ship Ship[]
+
+  Shot Shot[]
 }
 
 model Ship {
@@ -48,9 +50,21 @@ model Cell {
   Y      Int
   status String
 
-  playerId Int
-  player   Player @relation(fields: [playerId], references: [id])
+  ownedByPlayerId Int
+  player          Player @relation(fields: [ownedByPlayerId], references: [id])
 
   shipId Int
   ship   Ship @relation(fields: [shipId], references: [id])
+
+  Shot Shot[]
+}
+
+model Shot {
+  id     Int    @id @default(autoincrement())
+  status String
+
+  takenBy  Player @relation(fields: [playerId], references: [id])
+  cell     Cell   @relation(fields: [cellId], references: [id])
+  playerId Int
+  cellId   Int
 }

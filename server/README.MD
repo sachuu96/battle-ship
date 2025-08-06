@@ -23,7 +23,7 @@ this connection string will only work inside my app. This connection string can 
    This command will create a migration folder inside prisma folder.
    We can go over to prisma console and see the table has been created
 
-   `npx prisma migrate reset` this command will reset the databse clearing all the tables
+   `npx prisma migrate reset` this command will reset the databse clearing all the tables and apply all the saved migrations one after the other
 
 9. To access the databse with a GUI, need to use 'prisma-prosgres-tunnel'
    `npx @prisma/ppg-tunnel` command will create a secure tunnel from our machine to the database. Once you run this command - tunnel is now open
