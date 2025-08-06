@@ -1,5 +1,6 @@
 import { prisma } from "../db.js";
 
+// TODO: convert the params to single object
 export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
   try {
     const cell = await prisma.cell.create({
@@ -18,5 +19,24 @@ export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
     throw error;
   }
 };
+
+export const getShipCoordinates =(shipType, index) => {
+  if (shipType === 'battle') {
+    // 4 cells in a vertical line
+    return [
+      [5, 0],
+      [5, 1],
+      [5, 2],
+      [5, 3],
+    ];
+  } else {
+    // 3 cells in a vertical line starting from row = index + 1
+    return [
+      [index + 1, 0],
+      [index + 1, 1],
+      [index + 1, 2],
+    ];
+  }
+}
 
 
