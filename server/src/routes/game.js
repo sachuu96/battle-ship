@@ -26,9 +26,6 @@ gameRouter.post("/", async (req, res) => {
     })
   );
 
-  // console.log('shipsOfBotPlayer-',shipsOfBotPlayer)
-  // const shipsOfBotPlayer = await createShips(firstPlayer.id, game.id);
-
   // create ship cordinates - cells
   for (const [index, ship] of shipsOfBotPlayer.entries()) {
     const coords = getShipCoordinates(ship.type, index);

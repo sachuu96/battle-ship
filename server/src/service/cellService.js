@@ -20,6 +20,8 @@ export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
   }
 };
 
+// this function is used to create ship placement for bot player 
+// TODO: come up with a better randomization logic for cordinates
 export const getShipCoordinates =(shipType, index) => {
   if (shipType === 'battle') {
     // 4 cells in a vertical line
