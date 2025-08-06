@@ -1,7 +1,7 @@
 import express from "express";
 import { shotCreationSchema } from "../schemaValidation.js";
 import { filterCell } from "../service/cellService.js";
-import { create as createShot } from "../service/shotService.js";
+import { create as createShot, getHitCount } from "../service/shotService.js";
 import { filter as filterPlayer } from "../service/playerService.js";
 
 const shotRouter = express.Router();
@@ -36,13 +36,13 @@ shotRouter.post("/:playerId", async (req, res) => {
       ownedByPlayerId: opponentId,
     });
 
-    console.log("cell", cell);
     const shotData = {
       status: cell ? "hit" : "missed",
       playerId,
       cellId: cell ? cell.id : null,
     };
 
+    // TODO: can do shots to same cell multiple times - need to add a validation for that
     const shot = await createShot(shotData);
 
     res.send(shot).status(200);
@@ -52,6 +52,18 @@ shotRouter.post("/:playerId", async (req, res) => {
   }
 });
 
+shotRouter.get("/:playerId", async (req, res) => {
+  try {
+    const playerId = parseInt(req.params.playerId);
+    const status = req.query.status;
+
+    const count = await getHitCount(playerId,status);
+    res.send(count).status(200);
+  } catch (error) {
+    console.error("error while counting hits:", error);
+    throw error;
+  }
+});
 // TODO: When checking game status - player id and game id are already in the token
 // get count of cells -  group by ship id where status is marked as "hit"
 // if the ship type is "battle" cell count should be 4

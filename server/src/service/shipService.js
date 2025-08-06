@@ -7,7 +7,7 @@ export const create = async ({ playerId, gameId, type }) => {
         type,
         playerId,
         gameId,
-        isSunk: false,
+        isSunk: false, // TODO: check if this property is actually needed
       },
     });
 
