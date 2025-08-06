@@ -30,8 +30,9 @@ model Player {
 }
 
 model Ship {
-  id   Int    @id @default(autoincrement())
-  type String
+  id     Int     @id @default(autoincrement())
+  type   String
+  isSunk Boolean
 
   gameId Int
   game   Game @relation(fields: [gameId], references: [id])
@@ -45,7 +46,7 @@ model Cell {
   id     Int    @id @default(autoincrement())
   X      Int
   Y      Int
-  Status String
+  status String
 
   playerId Int
   player   Player @relation(fields: [playerId], references: [id])
