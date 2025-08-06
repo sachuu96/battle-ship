@@ -9,7 +9,6 @@ export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
         Y: YCordinate,
         ownedByPlayerId: playerId,
         shipId,
-        status: "intact",
       },
     });
     if (!cell)
@@ -44,5 +43,17 @@ export const getShipCoordinates = (shipType, index) => {
       [index + 1, 1],
       [index + 1, 2],
     ];
+  }
+};
+
+export const filterCell = async (filter) => {
+  try {
+    const cell = await prisma.cell.findUnique({
+      where: { X_Y_ownedByPlayerId:  filter  },
+    });
+    return cell;
+  } catch (error) {
+    console.error("Error while filtering cell:", error);
+    throw error;
   }
 };

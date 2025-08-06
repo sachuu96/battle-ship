@@ -15,6 +15,7 @@ model User {
 
 model Game {
   id     Int      @id @default(autoincrement())
+  status String
   Player Player[]
   Ship   Ship[]
 }
@@ -27,7 +28,6 @@ model Player {
 
   Cell Cell[]
   Ship Ship[]
-
   Shot Shot[]
 }
 
@@ -45,26 +45,27 @@ model Ship {
 }
 
 model Cell {
-  id     Int    @id @default(autoincrement())
-  X      Int
-  Y      Int
-  status String
+  id Int @id @default(autoincrement())
+  X  Int
+  Y  Int
 
   ownedByPlayerId Int
   player          Player @relation(fields: [ownedByPlayerId], references: [id])
 
   shipId Int
-  ship   Ship @relation(fields: [shipId], references: [id])
+  ship   Ship   @relation(fields: [shipId], references: [id])
+  Shot   Shot[]
 
-  Shot Shot[]
+  @@unique([X, Y, ownedByPlayerId])
 }
 
 model Shot {
   id     Int    @id @default(autoincrement())
   status String
 
-  takenBy  Player @relation(fields: [playerId], references: [id])
-  cell     Cell   @relation(fields: [cellId], references: [id])
   playerId Int
-  cellId   Int
+  takenBy  Player @relation(fields: [playerId], references: [id])
+
+  cellId         Int?
+  cellIdentifier Cell? @relation(fields: [cellId], references: [id])
 }

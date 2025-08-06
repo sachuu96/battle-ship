@@ -17,3 +17,9 @@ export const shipCreationSchema = Joi.object({
       ).required(),
       playerId: Joi.number().integer().required()
   });
+
+export const shotCreationSchema = Joi.object({
+  playerId: Joi.number().integer().required(),
+  xCordinate: Joi.number().integer().min(0).max(9).required(),
+  yCordinate: Joi.number().integer().min(0).max(9).required()
+})
