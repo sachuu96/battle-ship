@@ -22,3 +22,5 @@ export const create = async ({ playerId, gameId, type }) => {
     throw error;
   }
 };
+
+// TODO: may be remove bot player concept and allow for ship placement based on player id
