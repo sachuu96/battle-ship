@@ -19,8 +19,8 @@ shotRouter.post("/:playerId", async (req, res) => {
     if (validationError) {
       throw { message: error, statusCode: 400 };
     }
-    // TODO: decrypt if needed.
-    const gameId = parseInt(req.headers.session);
+    
+    const gameId = req.session;
 
     // get oponent's player id
     const playersOfCurrentGame = await filterPlayer({ gameId });

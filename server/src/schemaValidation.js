@@ -23,3 +23,7 @@ export const shotCreationSchema = Joi.object({
   xCordinate: Joi.number().integer().min(0).max(9).required(),
   yCordinate: Joi.number().integer().min(0).max(9).required()
 })
+
+export const sessionSchema = Joi.object({
+  session: Joi.number().integer().required(),
+})
