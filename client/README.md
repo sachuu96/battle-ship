@@ -85,3 +85,9 @@ This template comes with [Tailwind CSS](https://tailwindcss.com/) already config
 ---
 
 Built with ❤️ using React Router.
+
+<!-- Above is auto generated -->
+
+# Assumptions
+
+1. This game is not real time - therefore both grids are visible in same session (screen)
