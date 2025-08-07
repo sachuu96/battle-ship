@@ -42,7 +42,6 @@ shotRouter.post("/:playerId", async (req, res) => {
       cellId: cell ? cell.id : null,
     };
 
-    // TODO: can do shots to same cell multiple times - need to add a validation for that
     const shot = await createShot(shotData);
 
     res.send(shot).status(200);
