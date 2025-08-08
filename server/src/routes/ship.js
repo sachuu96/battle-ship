@@ -3,7 +3,10 @@ import express from "express";
 const shipRouter = express.Router();
 
 import { shipCreationSchema } from "../schemaValidation.js";
-import { create as createShip } from "../service/shipService.js";
+import {
+  create as createShip,
+  getPlayerShipsWithCoordinates,
+} from "../service/shipService.js";
 import { create as createCell } from "../service/cellService.js";
 
 shipRouter.post("/:playerId", async (req, res) => {
@@ -56,6 +59,23 @@ shipRouter.post("/:playerId", async (req, res) => {
   }
 });
 
+shipRouter.get("/:playerId", async (req, res) => {
+  try {
+    const playerId = parseInt(req.params.playerId);
+    const gameId = req.session;
+    const shipPlacementCoordinates = await getPlayerShipsWithCoordinates({
+      playerId,
+      gameId,
+    });
+    res.status(200).send({ shipPlacementCoordinates });
+  } catch (error) {
+    console.error(`Error while creating ships`, error);
+    // TODO: sending 500 status is good - do the same for rest of the places
+    res
+      .status(error.statusCode || 500)
+      .json({ error: error.message || "Internal Server Error" });
+  }
+});
 // shipRouter.post("/:playerId", async (req, res) => {
 //   try {
 //     const playerId = parseInt(req.params.playerId);

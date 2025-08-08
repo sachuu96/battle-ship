@@ -50,12 +50,12 @@ gameRouter.post("/", async (req, res) => {
 // when above conditions met - set the status of ship to "sunk"
 // if the given player's all the ship's status are "sunk" - that player looses (other player wins)
 
-gameRouter.get("/", sessionValidator, async (req, res) => {
+gameRouter.get("/", async (req, res) => {
   try {
-    const gameId = req.session;
-
-    const players = await filterById({ id: gameId });
-    res.send(players).status(200);
+    const gameId = parseInt(req.headers.session);
+    if(!gameId) res.send(null).status(200);
+    const game = await filterById({ id: gameId });
+    res.send(game).status(200);
   } catch (error) {
     console.error("error while counting hits:", error);
     throw error;

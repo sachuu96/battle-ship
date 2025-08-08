@@ -23,4 +23,32 @@ export const create = async ({ playerId, gameId, type }) => {
   }
 };
 
+function flattenShipCoordinates(shipPlacementCoordinates) {
+  return shipPlacementCoordinates.flatMap(ship =>
+    ship.Cell.map(cell => ({
+      shipId: ship.id,
+      x: cell.X,
+      y: cell.Y
+    }))
+  );
+}
+
+export async function getPlayerShipsWithCoordinates({playerId, gameId}) {
+  const shipPlacement = await prisma.ship.findMany({
+    where: {
+      playerId,
+      gameId,
+    },
+    select: {
+      id: true,
+      Cell: {
+        select: {
+          X: true,
+          Y: true,
+        },
+      },
+    },
+  });
+  return flattenShipCoordinates(shipPlacement)
+}
 // TODO: may be remove bot player concept and allow for ship placement based on player id
