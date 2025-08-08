@@ -35,7 +35,7 @@ shipRouter.post("/:playerId", async (req, res) => {
 
     const gameId = req.session;
 
-    const createdShips = await Promise.all(
+    await Promise.all(
       ships.map(async (ship) => {
         const { id } = await createShip({ playerId, gameId, type: ship.type });
 
@@ -49,7 +49,14 @@ shipRouter.post("/:playerId", async (req, res) => {
       })
     );
 
-    res.status(200).send({ createdShips });
+    const shipPlacementCoordinates = await getPlayerShipsWithCoordinates({
+      playerId,
+      gameId,
+    });
+
+    res
+      .status(200)
+      .send({ shipPlacementCoordinates });
   } catch (error) {
     console.error(`Error while creating ships`, error);
     // TODO: sending 500 status is good - do the same for rest of the places
