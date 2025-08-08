@@ -1,7 +1,11 @@
 import express from "express";
 import { shotCreationSchema } from "../schemaValidation.js";
 import { filterCell } from "../service/cellService.js";
-import { create as createShot, getHitCount } from "../service/shotService.js";
+import {
+  create as createShot,
+  getHitCount,
+  getAllShots,
+} from "../service/shotService.js";
 import { filter as filterPlayer } from "../service/playerService.js";
 
 const shotRouter = express.Router();
@@ -19,7 +23,7 @@ shotRouter.post("/:playerId", async (req, res) => {
     if (validationError) {
       throw { message: error, statusCode: 400 };
     }
-    
+
     const gameId = req.session;
 
     // get oponent's player id
@@ -40,13 +44,30 @@ shotRouter.post("/:playerId", async (req, res) => {
       status: cell ? "hit" : "missed",
       playerId,
       cellId: cell ? cell.id : null,
+      cellCordinates: { x: xCordinate, y: yCordinate },
     };
 
     const shot = await createShot(shotData);
 
-    res.send(shot).status(200);
+    console.log('shot',shot);
+    // TODO: re-check coordinates spellings
+    res.send({ status: shot.status, x: xCordinate, y: yCordinate }).status(200);
   } catch (error) {
     console.error(`Error while creating ships`, error);
+    throw error;
+  }
+});
+
+shotRouter.get("/:playerId/hits", async (req, res) => {
+  try {
+    const playerId = parseInt(req.params.playerId);
+    // TODO: Do I need this as a query?
+    const status = req.query.status;
+
+    const count = await getHitCount(playerId, status);
+    res.send(count).status(200);
+  } catch (error) {
+    console.error("error while counting hits:", error);
     throw error;
   }
 });
@@ -54,12 +75,11 @@ shotRouter.post("/:playerId", async (req, res) => {
 shotRouter.get("/:playerId", async (req, res) => {
   try {
     const playerId = parseInt(req.params.playerId);
-    const status = req.query.status;
 
-    const count = await getHitCount(playerId,status);
-    res.send(count).status(200);
+    const shots = await getAllShots(playerId);
+    res.send(shots).status(200);
   } catch (error) {
-    console.error("error while counting hits:", error);
+    console.error("error while fetching shots:", error);
     throw error;
   }
 });

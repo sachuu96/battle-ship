@@ -60,8 +60,9 @@ model Cell {
 }
 
 model Shot {
-  id     Int    @id @default(autoincrement())
-  status String
+  id             Int    @id @default(autoincrement())
+  status         String
+  cellCordinates Json
 
   playerId Int
   takenBy  Player @relation(fields: [playerId], references: [id])

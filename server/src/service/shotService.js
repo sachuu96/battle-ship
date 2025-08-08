@@ -25,3 +25,20 @@ export const getHitCount = async (playerId, status) => {
     throw error;
   }
 };
+
+export const getAllShots = async (playerId) => {
+  try {
+    const shots = await prisma.shot.findMany({
+      where: {
+        playerId,
+      },
+    });
+    const formattedShots = shots.map(({ status, cellCordinates: { x, y } }) => {
+      return { status, x, y };
+    });
+    return formattedShots;
+  } catch (error) {
+    console.error("Error while fetching shots:", error);
+    throw error;
+  }
+};
