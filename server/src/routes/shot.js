@@ -3,7 +3,7 @@ import { shotCreationSchema } from "../schemaValidation.js";
 import { filterCell } from "../service/cellService.js";
 import {
   create as createShot,
-  getHitCount,
+  getShotCount,
   getAllShots,
 } from "../service/shotService.js";
 import { filter as filterPlayer } from "../service/playerService.js";
@@ -58,14 +58,14 @@ shotRouter.post("/:playerId", async (req, res) => {
   }
 });
 
-shotRouter.get("/:playerId/hits", async (req, res) => {
+shotRouter.get("/:playerId/count", async (req, res) => {
   try {
     const playerId = parseInt(req.params.playerId);
     // TODO: Do I need this as a query?
-    const status = req.query.status;
+    // const status = req.query.status;
 
-    const count = await getHitCount(playerId, status);
-    res.send(count).status(200);
+    const shots = await getShotCount(playerId);
+    res.send(shots).status(200);
   } catch (error) {
     console.error("error while counting hits:", error);
     throw error;

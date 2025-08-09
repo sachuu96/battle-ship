@@ -11,20 +11,43 @@ export const create = async (payload) => {
   }
 };
 
-export const getHitCount = async (playerId, status) => {
+// export const getShotCount = async (playerId, status) => {
+//   try {
+//     const hitCount = await prisma.shot.count({
+//       where: {
+//         playerId,
+//         status,
+//       },
+//     });
+//     return hitCount;
+//   } catch (error) {
+//     console.error("Error while counting hits:", error);
+//     throw error;
+//   }
+// };
+
+export const getShotCount = async (playerId) => {
   try {
-    const hitCount = await prisma.shot.count({
+    const counts = await prisma.shot.groupBy({
+      by: ["status"],
       where: {
         playerId,
-        status,
+      },
+      _count: {
+        status: true,
       },
     });
-    return hitCount;
+
+    return counts.reduce((acc, { status, _count }) => {
+      acc[status] = _count.status;
+      return acc;
+    }, {});
   } catch (error) {
-    console.error("Error while counting hits:", error);
+    console.error("Error while counting hits by status:", error);
     throw error;
   }
 };
+
 
 export const getAllShots = async (playerId) => {
   try {
