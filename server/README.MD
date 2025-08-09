@@ -42,4 +42,4 @@ Assumptions:
 
 <h3>Design patterns used: </h3>
 
-1. middleware pattern - to handle error and check session validity
+1. middleware pattern - to handle error and check session validity (chain of responsibility)
