@@ -1,5 +1,4 @@
-import { getShipCoordinates, create as createShip } from "../service/shipService.js";
-import { create as createCell } from "../service/cellService.js";
+import { getShipCoordinates , createShipsWithCells} from "../service/shipService.js";
 import { validateShipCells } from "../util.js";
 
 export async function getPlayerShipsWithCoordinates({ gameId, playerId }) {
@@ -29,25 +28,7 @@ export async function createShipHandler({ inputShips, playerId, gameId }) {
       }
     }
 
-    await Promise.all(
-      inputShips.map(async (ship) => {
-        const { id } = await createShip({ playerId, gameId, type: ship.type });
-
-        const createdCells = await Promise.all(
-          ship.coordinates.map(async ({ x, y }) => {
-            return createCell({
-              Xcoordinate: parseInt(x),
-              YCoordinate: parseInt(y),
-              playerId,
-              shipId: id,
-            });
-          })
-        );
-
-        return { shipId: id, cells: createdCells };
-      })
-    );
-
+    await createShipsWithCells({ inputShips, gameId, playerId });
     return await getPlayerShipsWithCoordinates({
       playerId,
       gameId,

@@ -1,11 +1,12 @@
 import Joi from 'joi';
+import { shipTypes } from './const.js';
 
 export const shipCreationSchema = Joi.object({
     ships: Joi.array()
       .length(3) // need to create exactly 3 ships
       .items(
         Joi.object({
-          type: Joi.string().valid('destroyer', 'battle').required(),
+          type: Joi.string().valid(shipTypes.DESTROYER, shipTypes.DESTROYER).required(),
           coordinates: Joi.array()
             .items(
               Joi.array()
@@ -15,7 +16,7 @@ export const shipCreationSchema = Joi.object({
                     x:Joi.string(),
                     y:Joi.string()
                   })
-                ) // board starts at 0 ends at 9
+                )
             )
             .required()
         })

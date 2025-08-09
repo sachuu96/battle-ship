@@ -35,6 +35,8 @@ this connection string will only work inside my app. This connection string can 
 
 11. put logic related code into a controller folder and used service layer to access databse - MVC style
 
+12. used prisma enum for string type properties in tables
+
 Assumptions:
 
 1. first Player is always going to be the machine - bot player

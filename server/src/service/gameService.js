@@ -1,8 +1,9 @@
 import { prisma } from "../db.js";
+import {gameStatus} from "../const.js";
 
 export const create = async () => {
   try {
-    const game = await prisma.game.create({ data: { status: "IN_PROGRESS" } });
+    const game = await prisma.game.create({ data: { status: gameStatus.IN_PROGRESS } });
     if (!game) throw { statusCode: 400, message: "game not created" };
     return game;
   } catch (error) {

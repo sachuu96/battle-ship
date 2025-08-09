@@ -7,15 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+enum ShipType {
+  battle
+  destroyer
+}
+
+enum ShotStatus {
+  hit
+  missed
+}
+
+enum GameStatus {
+  inProgress
+  completed
 }
 
 model Game {
-  id     Int      @id @default(autoincrement())
-  status String
+  id     Int        @id @default(autoincrement())
+  status GameStatus
   Player Player[]
   Ship   Ship[]
 }
@@ -32,8 +41,8 @@ model Player {
 }
 
 model Ship {
-  id     Int     @id @default(autoincrement())
-  type   String
+  id     Int      @id @default(autoincrement())
+  type   ShipType
   isSunk Boolean
 
   gameId Int
@@ -60,8 +69,8 @@ model Cell {
 }
 
 model Shot {
-  id              Int    @id @default(autoincrement())
-  status          String
+  id              Int        @id @default(autoincrement())
+  status          ShotStatus
   cellCoordinates Json
 
   playerId Int

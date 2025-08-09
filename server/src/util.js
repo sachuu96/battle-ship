@@ -1,4 +1,5 @@
 export function validateShipCells(cells) {
+  console.log('here-',cells)
   if (cells.length < 2) return true; // 1 cell is always valid
 
   // Check if all cells share same x (vertical) or same y (horizontal)

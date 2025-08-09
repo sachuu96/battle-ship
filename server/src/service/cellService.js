@@ -1,31 +1,31 @@
 import { prisma } from "../db.js";
 
-export const create = async ({
-  Xcoordinate,
-  YCoordinate,
-  playerId,
-  shipId,
-}) => {
-  try {
-    const cell = await prisma.cell.create({
-      data: {
-        X: Xcoordinate,
-        Y: YCoordinate,
-        ownedByPlayerId: playerId,
-        shipId,
-      },
-    });
-    if (!cell)
-      throw {
-        statusCode: 400,
-        message: `cell not created : Xcoordinate=${Xcoordinate} : YCoordinate=${YCoordinate} : playerId=${playerId} : shipId=${shipId}`,
-      };
-    return cell;
-  } catch (error) {
-    console.error("Error while creating cell:", error);
-    throw error;
-  }
-};
+// export const create = async ({
+//   Xcoordinate,
+//   YCoordinate,
+//   playerId,
+//   shipId,
+// }) => {
+//   try {
+//     const cell = await prisma.cell.create({
+//       data: {
+//         X: Xcoordinate,
+//         Y: YCoordinate,
+//         ownedByPlayerId: playerId,
+//         shipId,
+//       },
+//     });
+//     if (!cell)
+//       throw {
+//         statusCode: 400,
+//         message: `cell not created : Xcoordinate=${Xcoordinate} : YCoordinate=${YCoordinate} : playerId=${playerId} : shipId=${shipId}`,
+//       };
+//     return cell;
+//   } catch (error) {
+//     console.error("Error while creating cell:", error);
+//     throw error;
+//   }
+// };
 
 export const filterCell = async (filter) => {
   try {
