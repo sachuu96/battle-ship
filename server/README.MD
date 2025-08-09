@@ -37,6 +37,10 @@ this connection string will only work inside my app. This connection string can 
 
 12. used prisma enum for string type properties in tables
 
+13. TODO - introduce database indexes for columns such as gameId, playerId, X, Y
+
+14. TODO - add a createdAt timestamp property to get the player who sink all the ships (shot count is 10)
+
 Assumptions:
 
 1. first Player is always going to be the machine - bot player

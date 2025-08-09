@@ -36,6 +36,7 @@ shotRouter.get("/:playerId/count", async (req, res) => {
     const playerId = parseInt(req.params.playerId);
 
     const shots = await getShotCount(playerId);
+    // TODO: when hit count (of shot table) is 10 update the game status to COMPLETED
     res.send(shots).status(200);
   } catch (error) {
     console.error("error while counting hits:", error);
