@@ -8,7 +8,7 @@ export const create = async (gameId) => {
       },
     });
     if (!player)
-      throw { statusCode: 400, message: `player not created : ${{ gameId }}` };
+      throw { statusCode: 400, message: `player not created : gameId=${ gameId }` };
     return player;
   } catch (error) {
     console.error("Error while creating player:", error);
@@ -19,8 +19,8 @@ export const create = async (gameId) => {
 export const filter = async (filter) => {
   try {
     const players = await prisma.player.findMany({ where: filter });
-    if (!players)
-      throw { statusCode: 400, message: `player(s) not found : ${{ filter }}` };
+    if (!players || players.length === 0)
+      throw { statusCode: 400, message: `player(s) not found : filter=${ filter }` };
     return players;
   } catch (error) {
     console.error("Error while filtering player(s):", error);

@@ -8,42 +8,42 @@ import {
   getPlayerShipsWithCoordinates,
 } from "../service/shipService.js";
 import { create as createCell } from "../service/cellService.js";
+import { validateShipCells } from "../util.js";
 
 shipRouter.post("/:playerId", async (req, res) => {
   try {
     const playerId = parseInt(req.params.playerId);
     const inputShips = req.body.ships;
 
-    // Convert coordinate objects { x, y } to tuples [x, y] as numbers
-    const ships = inputShips.map((ship) => ({
-      type: ship.type,
-      coordinates: ship.coordinates.map((coord) => [
-        parseInt(coord.x, 10),
-        parseInt(coord.y, 10),
-      ]),
-    }));
-
-    // Validate after transformation
     const { validationError } = shipCreationSchema.validate({
       playerId,
-      ships,
+      inputShips,
     });
 
     if (validationError) {
-      throw { message: validationError.message, statusCode: 400 };
+      return res.status(400).json({ error: validationError.message });
+    }
+
+    for (const ship of inputShips) {
+
+      if (!validateShipCells(ship.coordinates)) {
+        return res.status(400).json({
+          error: `Invalid placement for ship type '${ship.type}': cells must be aligned either horizontally or vertically and be adjacent.`,
+        });
+      }
     }
 
     const gameId = req.session;
 
     await Promise.all(
-      ships.map(async (ship) => {
+      inputShips.map(async (ship) => {
         const { id } = await createShip({ playerId, gameId, type: ship.type });
 
         const createdCells = await Promise.all(
-          ship.coordinates.map(async ([x, y]) => {
+          ship.coordinates.map(async ({x, y}) => {
             return createCell({
-              Xcoordinate: x,
-              YCoordinate: y,
+              Xcoordinate: parseInt(x), 
+              YCoordinate: parseInt(y),
               playerId,
               shipId: id,
             });
@@ -65,6 +65,7 @@ shipRouter.post("/:playerId", async (req, res) => {
     throw error;
   }
 });
+
 
 shipRouter.get("/:playerId", async (req, res) => {
   try {

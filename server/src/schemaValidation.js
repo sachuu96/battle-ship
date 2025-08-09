@@ -10,7 +10,12 @@ export const shipCreationSchema = Joi.object({
             .items(
               Joi.array()
                 .length(2)
-                .items(Joi.number().integer().min(0).max(9)) // board starts at 0 ends at 9
+                .items(
+                  Joi.object({
+                    x:Joi.string(),
+                    y:Joi.string()
+                  })
+                ) // board starts at 0 ends at 9
             )
             .required()
         })

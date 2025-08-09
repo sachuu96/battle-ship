@@ -30,7 +30,10 @@ this connection string will only work inside my app. This connection string can 
    get the randomly assigned port and connect to the database via your choice of GUI (pgadmin)
    While doing so - remember to disable SSL mode because the tunnel is already secured
 
-10. constraint is added to Shot table where same cellId can not be duplicated
+10. constraint is added to Ship table where same same cell can not be duplicated by same user
+    (X_Y_ownedByPlayerId is unique)
+
+11. put logic related code into a controller folder and used service layer to access databse - MVC style
 
 Assumptions:
 

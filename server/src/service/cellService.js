@@ -1,6 +1,11 @@
 import { prisma } from "../db.js";
 
-export const create = async ({Xcoordinate, YCoordinate, playerId, shipId}) => {
+export const create = async ({
+  Xcoordinate,
+  YCoordinate,
+  playerId,
+  shipId,
+}) => {
   try {
     const cell = await prisma.cell.create({
       data: {
@@ -13,9 +18,7 @@ export const create = async ({Xcoordinate, YCoordinate, playerId, shipId}) => {
     if (!cell)
       throw {
         statusCode: 400,
-        message: `cell not created : ${{ Xcoordinate }} : ${{ YCoordinate }} : ${{
-          playerId,
-        }} : ${{ shipId }}`,
+        message: `cell not created : Xcoordinate=${Xcoordinate} : YCoordinate=${YCoordinate} : playerId=${playerId} : shipId=${shipId}`,
       };
     return cell;
   } catch (error) {
@@ -27,7 +30,7 @@ export const create = async ({Xcoordinate, YCoordinate, playerId, shipId}) => {
 export const filterCell = async (filter) => {
   try {
     const cell = await prisma.cell.findUnique({
-      where: { X_Y_ownedByPlayerId:  filter  },
+      where: { X_Y_ownedByPlayerId: filter },
     });
     return cell;
   } catch (error) {

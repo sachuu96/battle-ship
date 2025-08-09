@@ -15,7 +15,7 @@ export const filterById = async (filter) => {
   try {
     const game = await prisma.game.findUnique({ where: filter });
     if (!game)
-      throw { statusCode: 400, message: `game not found : ${{ filter }}` };
+      throw { statusCode: 400, message: `game not found : filter=${ filter }` };
     return players;
   } catch (error) {
     console.error("Error while fetcing game):", error);

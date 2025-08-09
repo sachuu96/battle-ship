@@ -14,7 +14,7 @@ export const create = async ({ playerId, gameId, type }) => {
     if (!ship)
       throw {
         statusCode: 400,
-        message: `ship not created : ${{ gameId }} : ${{ playerId }}`,
+        message: `ship not created : gameId=${ gameId } : playerId=${ playerId }`,
       };
     return ship;
   } catch (error) {
@@ -52,7 +52,7 @@ export async function getPlayerShipsWithCoordinates({ playerId, gameId }) {
     });
     return flattenShipCoordinates(shipPlacement);
   } catch (error) {
-    console.error(`Error while getting ship coordinates ${{playerId}} ${{gameId}}:`, error);
+    console.error(`Error while getting ship coordinates ${playerId} ${gameId}:`, error);
     throw error;
   }
 }

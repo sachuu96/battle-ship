@@ -2,14 +2,20 @@ import express from "express";
 const router = express.Router();
 
 import { sessionValidator } from "../middlewares/sessionValidator.js";
-import gameRouter from "./game.js";
+
 import shipRouter from "./ship.js";
 import shotRouter from "./shot.js";
-import playerRouter from "./player.js";
 
-router.use("/games", gameRouter);
+import { createGameHandler, getGameHandler } from "../controllers/gameController.js";
+import { getPlayersHandler } from "../controllers/playerController.js";
+
+router.post("/games", createGameHandler);
+router.get("/games", getGameHandler);
+
+router.get("/players", sessionValidator, getPlayersHandler);
+
+
 router.use("/ships", sessionValidator, shipRouter);
 router.use("/shots", sessionValidator, shotRouter);
-router.use("/players", sessionValidator, playerRouter);
 
 export default router;
