@@ -23,17 +23,7 @@ export const create = async ({ playerId, gameId, type }) => {
   }
 };
 
-function flattenShipCoordinates(shipPlacementCoordinates) {
-  return shipPlacementCoordinates.flatMap((ship) =>
-    ship.Cell.map((cell) => ({
-      shipId: ship.id,
-      x: cell.X,
-      y: cell.Y,
-    }))
-  );
-}
-
-export async function getPlayerShipsWithCoordinates({ playerId, gameId }) {
+export async function getShipCoordinates({ playerId, gameId }) {
   try {
     const shipPlacement = await prisma.ship.findMany({
       where: {
@@ -50,7 +40,7 @@ export async function getPlayerShipsWithCoordinates({ playerId, gameId }) {
         },
       },
     });
-    return flattenShipCoordinates(shipPlacement);
+    return shipPlacement;
   } catch (error) {
     console.error(`Error while getting ship coordinates ${playerId} ${gameId}:`, error);
     throw error;
