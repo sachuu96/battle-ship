@@ -41,7 +41,12 @@ shipRouter.post("/:playerId", async (req, res) => {
 
         const createdCells = await Promise.all(
           ship.coordinates.map(async ([x, y]) => {
-            return createCell(x, y, playerId, id);
+            return createCell({
+              Xcoordinate: x,
+              YCoordinate: y,
+              playerId,
+              shipId: id,
+            });
           })
         );
 
@@ -54,15 +59,10 @@ shipRouter.post("/:playerId", async (req, res) => {
       gameId,
     });
 
-    res
-      .status(200)
-      .send({ shipPlacementCoordinates });
+    res.status(200).send({ shipPlacementCoordinates });
   } catch (error) {
     console.error(`Error while creating ships`, error);
-    // TODO: sending 500 status is good - do the same for rest of the places
-    res
-      .status(error.statusCode || 500)
-      .json({ error: error.message || "Internal Server Error" });
+    throw error;
   }
 });
 
@@ -77,44 +77,8 @@ shipRouter.get("/:playerId", async (req, res) => {
     res.status(200).send({ shipPlacementCoordinates });
   } catch (error) {
     console.error(`Error while creating ships`, error);
-    // TODO: sending 500 status is good - do the same for rest of the places
-    res
-      .status(error.statusCode || 500)
-      .json({ error: error.message || "Internal Server Error" });
+    throw error;
   }
 });
-// shipRouter.post("/:playerId", async (req, res) => {
-//   try {
-//     const playerId = parseInt(req.params.playerId);
-//     const ships = req.body.ships;
-//     const { validationError } = shipCreationSchema.validate({
-//       playerId,
-//       ships,
-//     });
-//     if (validationError) {
-//       throw { message: error, statusCode: 400 };
-//     }
-//     const gameId = req.session;
-
-//     // create ship cordinates - cells
-//     const createdShips = await Promise.all(
-//       ships.map(async (ship) => {
-//         const { id } = await createShip({ playerId, gameId, type: ship.type });
-
-//         const createdCells =  await Promise.all(
-//             ship.coordinates.map(async ([xCordinate, yCordinate])=>{
-//                 return createCell(xCordinate, yCordinate, playerId, id);
-//             })
-//         )
-//         return { shipId: id, cells: createdCells };
-//       })
-//     );
-
-//     res.send({ createdShips }).status(200);
-//   } catch (error) {
-//     console.error(`Error while creating ships`, error);
-//     throw error;
-//   }
-// });
 
 export default shipRouter;

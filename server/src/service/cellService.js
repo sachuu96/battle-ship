@@ -1,12 +1,11 @@
 import { prisma } from "../db.js";
 
-// TODO: convert the params to single object
-export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
+export const create = async ({Xcoordinate, YCoordinate, playerId, shipId}) => {
   try {
     const cell = await prisma.cell.create({
       data: {
-        X: Xcordinate,
-        Y: YCordinate,
+        X: Xcoordinate,
+        Y: YCoordinate,
         ownedByPlayerId: playerId,
         shipId,
       },
@@ -14,7 +13,7 @@ export const create = async (Xcordinate, YCordinate, playerId, shipId) => {
     if (!cell)
       throw {
         statusCode: 400,
-        message: `cell not created : ${{ Xcordinate }} : ${{ YCordinate }} : ${{
+        message: `cell not created : ${{ Xcoordinate }} : ${{ YCoordinate }} : ${{
           playerId,
         }} : ${{ shipId }}`,
       };

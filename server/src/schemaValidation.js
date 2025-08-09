@@ -20,8 +20,8 @@ export const shipCreationSchema = Joi.object({
 
 export const shotCreationSchema = Joi.object({
   playerId: Joi.number().integer().required(),
-  xCordinate: Joi.number().integer().min(0).max(9).required(),
-  yCordinate: Joi.number().integer().min(0).max(9).required()
+  xCoordinate: Joi.number().integer().min(0).max(9).required(),
+  yCoordinate: Joi.number().integer().min(0).max(9).required()
 })
 
 export const sessionSchema = Joi.object({

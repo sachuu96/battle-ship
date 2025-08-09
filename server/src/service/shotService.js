@@ -41,7 +41,7 @@ export const getAllShots = async (playerId) => {
         playerId,
       },
     });
-    const formattedShots = shots.map(({ status, cellCordinates: { x, y } }) => {
+    const formattedShots = shots.map(({ status, cellCoordinates: { x, y } }) => {
       return { status, x, y };
     });
     return formattedShots;

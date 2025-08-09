@@ -29,3 +29,14 @@ this connection string will only work inside my app. This connection string can 
    `npx @prisma/ppg-tunnel` command will create a secure tunnel from our machine to the database. Once you run this command - tunnel is now open
    get the randomly assigned port and connect to the database via your choice of GUI (pgadmin)
    While doing so - remember to disable SSL mode because the tunnel is already secured
+
+10. constraint is added to Shot table where same cellId can not be duplicated
+
+Assumptions:
+
+1. first Player is always going to be the machine - bot player
+2. X and Y coordinates maximum is 9 and minimum is 0
+
+<h3>Design patterns used: </h3>
+
+1. middleware pattern - to handle error and check session validity

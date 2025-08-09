@@ -13,12 +13,12 @@ const shotRouter = express.Router();
 shotRouter.post("/:playerId", async (req, res) => {
   try {
     const playerId = parseInt(req.params.playerId);
-    const xCordinate = parseInt(req.body.x);
-    const yCordinate = parseInt(req.body.y);
+    const xCoordinate = parseInt(req.body.x);
+    const yCoordinate = parseInt(req.body.y);
     const { validationError } = shotCreationSchema.validate({
       playerId,
-      xCordinate,
-      yCordinate,
+      xCoordinate,
+      yCoordinate,
     });
     if (validationError) {
       throw { message: error, statusCode: 400 };
@@ -35,8 +35,8 @@ shotRouter.post("/:playerId", async (req, res) => {
 
     // fetch cell details where player id is oponent's id
     const cell = await filterCell({
-      X: xCordinate,
-      Y: yCordinate,
+      X: xCoordinate,
+      Y: yCoordinate,
       ownedByPlayerId: opponentId,
     });
 
@@ -44,14 +44,11 @@ shotRouter.post("/:playerId", async (req, res) => {
       status: cell ? "hit" : "missed",
       playerId,
       cellId: cell ? cell.id : null,
-      cellCordinates: { x: xCordinate, y: yCordinate },
+      cellCoordinates: { x: xCoordinate, y: yCoordinate },
     };
 
     const shot = await createShot(shotData);
-
-    console.log('shot',shot);
-    // TODO: re-check coordinates spellings
-    res.send({ status: shot.status, x: xCordinate, y: yCordinate }).status(200);
+    res.send({ status: shot.status, x: xCoordinate, y: yCoordinate }).status(200);
   } catch (error) {
     console.error(`Error while creating ships`, error);
     throw error;
@@ -83,11 +80,5 @@ shotRouter.get("/:playerId", async (req, res) => {
     throw error;
   }
 });
-// TODO: When checking game status - player id and game id are already in the token
-// get count of cells -  group by ship id where status is marked as "hit"
-// if the ship type is "battle" cell count should be 4
-// if the ship type is "destroyer" cell count should be at least one - assuming one hit is enough to sync a destroyer ship
 
-// when above conditions met - set the status of ship to "sunk"
-// if the given player's all the ship's status are "sunk" - that player looses (other player wins)
 export default shotRouter;
