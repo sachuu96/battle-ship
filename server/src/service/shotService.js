@@ -11,21 +11,6 @@ export const create = async (payload) => {
   }
 };
 
-// export const getShotCount = async (playerId, status) => {
-//   try {
-//     const hitCount = await prisma.shot.count({
-//       where: {
-//         playerId,
-//         status,
-//       },
-//     });
-//     return hitCount;
-//   } catch (error) {
-//     console.error("Error while counting hits:", error);
-//     throw error;
-//   }
-// };
-
 export const getShotCount = async (playerId) => {
   try {
     const counts = await prisma.shot.groupBy({
@@ -43,7 +28,7 @@ export const getShotCount = async (playerId) => {
       return acc;
     }, {});
   } catch (error) {
-    console.error("Error while counting hits by status:", error);
+    console.error("Error while getting shot details grouped by status:", error);
     throw error;
   }
 };

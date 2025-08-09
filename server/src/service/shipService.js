@@ -7,7 +7,7 @@ export const create = async ({ playerId, gameId, type }) => {
         type,
         playerId,
         gameId,
-        isSunk: false, // TODO: check if this property is actually needed
+        isSunk: false, // TODO: use this property to mark if the ship is sunk in ship placement board
       },
     });
 
@@ -24,31 +24,35 @@ export const create = async ({ playerId, gameId, type }) => {
 };
 
 function flattenShipCoordinates(shipPlacementCoordinates) {
-  return shipPlacementCoordinates.flatMap(ship =>
-    ship.Cell.map(cell => ({
+  return shipPlacementCoordinates.flatMap((ship) =>
+    ship.Cell.map((cell) => ({
       shipId: ship.id,
       x: cell.X,
-      y: cell.Y
+      y: cell.Y,
     }))
   );
 }
 
-export async function getPlayerShipsWithCoordinates({playerId, gameId}) {
-  const shipPlacement = await prisma.ship.findMany({
-    where: {
-      playerId,
-      gameId,
-    },
-    select: {
-      id: true,
-      Cell: {
-        select: {
-          X: true,
-          Y: true,
+export async function getPlayerShipsWithCoordinates({ playerId, gameId }) {
+  try {
+    const shipPlacement = await prisma.ship.findMany({
+      where: {
+        playerId,
+        gameId,
+      },
+      select: {
+        id: true,
+        Cell: {
+          select: {
+            X: true,
+            Y: true,
+          },
         },
       },
-    },
-  });
-  return flattenShipCoordinates(shipPlacement)
+    });
+    return flattenShipCoordinates(shipPlacement);
+  } catch (error) {
+    console.error(`Error while getting ship coordinates ${{playerId}} ${{gameId}}:`, error);
+    throw error;
+  }
 }
-// TODO: may be remove bot player concept and allow for ship placement based on player id

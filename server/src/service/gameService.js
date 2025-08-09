@@ -13,12 +13,12 @@ export const create = async () => {
 
 export const filterById = async (filter) => {
   try {
-    const players = await prisma.game.findUnique({ where: filter });
-    if (!players)
-      throw { statusCode: 400, message: `player(s) not found : ${{ filter }}` };
+    const game = await prisma.game.findUnique({ where: filter });
+    if (!game)
+      throw { statusCode: 400, message: `game not found : ${{ filter }}` };
     return players;
   } catch (error) {
-    console.error("Error while filtering player(s):", error);
+    console.error("Error while fetcing game):", error);
     throw error;
   }
 };
