@@ -20,7 +20,7 @@ shipRouter.post("/:playerId", async (req, res, next) => {
     });
 
     if (validationError) {
-      return res.status(400).json({ error: validationError.message });
+      throw { status: 400, message: validationError.message };
     }
 
     const shipPlacementCoordinates = await createShipHandler({

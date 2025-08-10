@@ -1,4 +1,4 @@
-import { create as createGame, filterById } from "../service/gameService.js";
+import { create as createGame, filterById , filterGame} from "../service/gameService.js";
 import { create as createPlayer } from "../service/playerService.js";
 
 export async function createGameHandler(req, res, next) {
@@ -15,11 +15,16 @@ export async function createGameHandler(req, res, next) {
   }
 }
 
-export async function getGameHandler(req, res, next) {
+export async function filterGamesHandler(req, res, next) {
   try {
-    const gameId = parseInt(req.headers.session);
-    if (!gameId) res.send(null).status(200);
-    const game = await filterById({ id: gameId });
+
+    const { status } = req.query;
+
+    const filter = {
+      ...(status !== undefined && { status }),
+    };
+
+    const game = await filterGame(filter)
 
     res.send(game).status(200);
   } catch (error) {

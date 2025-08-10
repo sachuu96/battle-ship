@@ -49,3 +49,4 @@ Assumptions:
 <h3>Design patterns used: </h3>
 
 1. middleware pattern - to handle error and check session validity (chain of responsibility)
+2. Promise pattern - used async/await for sequential waiting and Promise.all for parallel waiting
