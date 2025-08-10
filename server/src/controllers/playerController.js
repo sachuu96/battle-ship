@@ -5,7 +5,14 @@ export async function getPlayersHandler(req, res, next) {
     const gameId = req.session;
 
     const players = await filter({ gameId });
-    res.send(players).status(200);
+    // get opponent's player id
+    const formattedPlayers = players.map((player,index)=>{
+      return {
+        ...player,
+        opponentId: index === 0 ? players[1].id : players[0].id
+      }
+    })
+    res.send(formattedPlayers).status(200);
   } catch (error) {
     next(error);
   }

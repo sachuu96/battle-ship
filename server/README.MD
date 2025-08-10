@@ -3,10 +3,10 @@
 3. npm init -y
 4. npm install express cors dotenv
 5. mkdir src && touch src/index.js
-   <!-- 5. npm install pg -->
-      <!-- 6. npm install prisma --save-dev -->
-      <!-- 7. npm install @prisma/client -->
-6. npm install prisma @prisma/client@latest @prisma/extension-accelerate
+
+   `npm install prisma --save-dev`
+
+6. `npm install prisma @prisma/client@latest @prisma/extension-accelerate`
 
 either use below command or use prisma console to create a database
 
@@ -40,6 +40,8 @@ this connection string will only work inside my app. This connection string can 
 13. TODO - introduce database indexes for columns such as gameId, playerId, X, Y
 
 14. TODO - add a createdAt timestamp property to get the player who sink all the ships (shot count is 10)
+
+15. postman collection - https://sachini-2631862.postman.co/workspace/sachini's-Workspace~9507534c-0775-4ab5-8d4c-f804d0117328/collection/46558865-99fc28e0-1d94-494b-953c-29064a930a5a?action=share&creator=46558865&active-environment=46558865-1fb5f649-0b09-432e-9b61-f62dbb1890e3
 
 Assumptions:
 
