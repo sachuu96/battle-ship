@@ -34,13 +34,12 @@ export const getShotCount = async (playerId) => {
 };
 
 
-export const getAllShots = async (playerId) => {
+export const filterShots = async (filter) => {
   try {
     const shots = await prisma.shot.findMany({
-      where: {
-        playerId,
-      },
+      where: {...filter},
     });
+    
     const formattedShots = shots.map(({ status, cellCoordinates: { x, y } }) => {
       return { status, x, y };
     });

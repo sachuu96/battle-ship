@@ -1,6 +1,6 @@
 import express from "express";
 import { shotCreationSchema } from "../schemaValidation.js";
-import { getShotCount, getAllShots } from "../service/shotService.js";
+import { getShotCount, filterShots } from "../service/shotService.js";
 import { createShotHandler } from "../controllers/shotController.js";
 
 const shotRouter = express.Router();
@@ -44,11 +44,19 @@ shotRouter.get("/:playerId/count", async (req, res) => {
   }
 });
 
-shotRouter.get("/:playerId", async (req, res) => {
+shotRouter.get("/:playerId", async (req, res, next) => {
   try {
     const playerId = parseInt(req.params.playerId);
+    const {X,Y,status} = req.query;
 
-    const shots = await getAllShots(playerId);
+    const filter = {
+      playerId,
+      ...(X !== undefined && { X }),
+      ...(Y !== undefined && { Y }),
+      ...(status !== undefined && {status})
+    };
+
+    const shots = await filterShots(filter);
     res.send(shots).status(200);
   } catch (error) {
     console.error("error while fetching shots:", error);
