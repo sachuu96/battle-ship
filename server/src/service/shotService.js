@@ -1,4 +1,5 @@
 import { prisma } from "../db.js";
+import { shotStatus } from "../const.js";
 
 export const create = async (payload) => {
   try {
@@ -29,6 +30,22 @@ export const getShotCount = async (playerId) => {
     }, {});
   } catch (error) {
     console.error("Error while getting shot details grouped by status:", error);
+    throw error;
+  }
+};
+
+export const getHitCount = async (playerId) => {
+  try {
+    const hitCount = await prisma.shot.count({
+      where: {
+        playerId,
+        status: shotStatus.HIT
+      },
+    });
+
+    return hitCount;
+  } catch (error) {
+    console.error("Error while getting hit count:", error);
     throw error;
   }
 };

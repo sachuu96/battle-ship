@@ -14,27 +14,29 @@ export const create = async () => {
   }
 };
 
-export const filterById = async (gameId) => {
+export const filterGame = async (filter) => {
   try {
-    const game = await prisma.game.findUnique({ where: { id: gameId } });
-    if (!game)
-      throw { statusCode: 400, message: `game not found : gameId=${gameId}` };
-    return players;
+    const games = await prisma.game.findMany({
+      where: Object.keys(filter).length ? filter : undefined,
+    });
+
+    return games;
   } catch (error) {
     console.error("Error while fetcing game):", error);
     throw error;
   }
 };
 
-export const filterGame = async (filter) => {
+export const updateGameStatus = async (gameId) => {
   try {
-    const games = await prisma.game.findMany({
-      where: Object.keys(filter).length ? filter : undefined,
+    const updatedGame = await prisma.game.update({
+      where: { id: gameId },
+      data: { status: gameStatus.COMPLETED },
     });
-    
-    return games;
+
+    return updatedGame;
   } catch (error) {
-    console.error("Error while fetcing game):", error);
+    console.error("Error while updating game status:", error);
     throw error;
   }
 };
